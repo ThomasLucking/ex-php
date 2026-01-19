@@ -17,15 +17,22 @@ class ArraysAndLoops
      */
     public static function generateRandomArray(): array
     {
+
+        $randomNumbers = array_map(fn () => rand(1, 10), range(1, 100));
+        return $randomNumbers;
+
     }
 
     /**
-     * Count how many times each number appears in the array
+     *
      * @param int[] $array
      * @return array<int, int>
      */
     public static function countNumbers(array $array): array
     {
+
+        return array_count_values($array);
+
     }
 
     /**
@@ -36,6 +43,10 @@ class ArraysAndLoops
      */
     public static function filterUsers(array $users, string $attribute, $value): array
     {
+
+        return array_filter($users, fn ($user) => $user->$attribute() === $value);
+
+
     }
 
     /**
@@ -45,5 +56,21 @@ class ArraysAndLoops
      */
     public static function transformUsers(array $users): array
     {
+
+        return array_map(function ($user) {
+            $originalname = $user->getName();
+            $user->setName(ucfirst($originalname));
+
+            $originalAge = $user->getAge();
+
+            $newAge = ($originalAge % 2 === 1)
+                ? $originalAge + 10
+                : ($originalAge / 2) + 2;
+
+            $user->setAge($newAge);
+
+            return $user;
+        }, $users);
+
     }
 }
